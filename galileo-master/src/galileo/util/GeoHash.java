@@ -436,10 +436,10 @@ public class GeoHash {
 		
 		String[] intersectingGeohashes = GeoHash.getIntersectingGeohashes(cl, precision);
 		
-		System.out.println(intersectingGeohashes.length);
+		/*System.out.println(intersectingGeohashes.length);
 		for(int i=0;i<intersectingGeohashes.length;i++) {
 			System.out.print(intersectingGeohashes[i] +" ");
-		}
+		}*/
 		return intersectingGeohashes;
 	}
 	
@@ -502,6 +502,29 @@ public class GeoHash {
 		
 	}
 	
+	
+	public static void getBorderGeoHashes(String geoHash, int precision) {
+		int geoHashLength = geoHash.length();
+		String[] internalGeohashes = getInternalGeohashes(geoHash, precision);
+		
+		List<String> internalGeohashesList = Arrays.asList(internalGeohashes);
+		
+		int count = 0;
+		for(String geo: internalGeohashesList) {
+			String[] nei = getNeighbours(geo);
+			
+			List<String> neighborsList = Arrays.asList(nei);
+			
+			if(!internalGeohashesList.containsAll(neighborsList)) {
+				System.out.println(geo);
+				count++;
+			}
+			
+		}
+		System.out.println(count);
+		
+	}
+	
 	public static void main(String arg[]) {
 		/*System.out.println("Hello");
 		
@@ -521,8 +544,8 @@ public class GeoHash {
 			System.out.println(intersectingGeohashes[i]);
 		}*/
 		
-		String[] internalGeohashes = GeoHash.getInternalGeohashes("c4", 3);
-		int orientation = GeoHash.getOrientation(internalGeohashes);
+		GeoHash.getBorderGeoHashes("e", 3);
+		//int orientation = GeoHash.getOrientation(internalGeohashes);
 		
 	}
 }
